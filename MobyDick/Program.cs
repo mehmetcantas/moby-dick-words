@@ -16,7 +16,7 @@ namespace MobyDick
         private static string _desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private static string _savePath = _desktopPath + "/mobydick.xml";
         private static string _endPointAddress = "http://www.gutenberg.org/files/2701/2701-0.txt";
-        // Download text from url
+        
         private static string contents;
         #endregion
         public static void Main(string[] args)
@@ -25,7 +25,7 @@ namespace MobyDick
             {
                 Console.WriteLine("Lütfen bekleyin XML dosyası oluşturuluyor...");
 
-                
+                // Download text from url
                 using (var wc = new System.Net.WebClient())
                     contents = wc.DownloadString(_endPointAddress);
 
