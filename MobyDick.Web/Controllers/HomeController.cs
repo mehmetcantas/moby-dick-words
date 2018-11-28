@@ -16,10 +16,21 @@ namespace MobyDick.Web.Controllers
         public ActionResult Index()
         {
             string _savePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + "/mobydick.xml";
-            XmlSerializer serializer = new XmlSerializer(typeof(List<BookViewModel>));
-            List<BookViewModel> wordList = new List<BookViewModel>();
-            var words = (from c in XElement.Load(_savePath).Elements("word")
-                       select c).Take(10);
+           XElement xElement = null;
+
+            if (HttpContext.Cache[_savePath] == null)
+            {
+                string cacheFilePath = _savePath;
+                xElement = XElement.Load(cacheFilePath);
+                HttpContext.Cache.Insert(_savePath, xElement, new CacheDependency(cacheFilePath));
+            }
+            else
+            {
+                xElement = (XElement)HttpContext.Cache[_savePath];
+            }
+            var words = (from c in xElement.Elements("word")
+                         select c).Take(10);
+
 
             foreach (var item in words)
             {
